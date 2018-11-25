@@ -51,4 +51,17 @@ apt-get install -y \
   python-catkin-tools
 
 # Install speech recognition dependencies
-pip install SpeechRecognition
+apt-get install -y \
+  libasound-dev \
+  libzbar-dev \
+  libzbar0 \
+  python-dev \
+  gcc \
+  libffi-dev \
+  libssl-dev \
+  python3-dev \
+  python-pyaudio \
+  flac \
+  portaudio19-dev
+
+pip install SpeechRecognition PyAudio
