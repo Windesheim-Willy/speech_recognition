@@ -1,0 +1,54 @@
+#!/bin/bash
+set -e
+
+COMPONENTDIR=$(pwd)
+ROS_DISTRO="kinetic"
+
+# Make sure only root can run our script
+if [ "$(id -u)" != "0" ]; then
+   echo "This script must be run as root" 1>&2
+   exit 1
+fi
+
+# Install packages
+apt-get install -q -y \
+    dirmngr \
+    gnupg2 \
+    lsb-release
+
+sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116
+apt-get update
+
+# install bootstrap tools
+apt-get install -y \
+  python-rosdep \
+  python-rosinstall \
+  python-vcstools \
+  python-rosinstall-generator
+
+# bootstrap rosdep
+rosdep init && rosdep update
+
+# Change the swap space
+sed -i '/CONF_SWAPSIZE=100/c\CONF_SWAPSIZE=1000' /etc/dphys-swapfile
+/etc/init.d/dphys-swapfile restart
+
+mkdir -p ~/ros_catkin_ws
+cd ~/ros_catkin_ws
+rosinstall_generator ros_comm --rosdistro kinetic --deps --wet-only --tar > kinetic-ros_comm-wet.rosinstall
+wstool init src kinetic-ros_comm-wet.rosinstall || true
+rosdep install -y --from-paths src --ignore-src --rosdistro kinetic -r --os=debian:stretch
+
+sudo ./src/catkin/bin/catkin_make_isolated --install -DCMAKE_BUILD_TYPE=Release --install-space /opt/ros/kinetic
+
+echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc
+source ~/.bashrc
+
+# Install ros packages
+apt-get install -y \
+  cmake \
+  python-catkin-tools
+
+# Install speech recognition dependencies
+pip install SpeechRecognition
