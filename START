@@ -10,8 +10,8 @@ PIDFILE=/var/run/$DAEMON_NAME.pid
 
 . /lib/lsb/init-functions
 
-date >> $ROSCORE_LOG
-date >> $ROSCORE_ERR
+date >> $SPEECH_LOG
+date >> $SPEECH_ERR
 do_start () {
     log_daemon_msg "Starting system $DAEMON_NAME daemon"
     start-stop-daemon --start --background --pidfile $PIDFILE --make-pidfile --exec $DAEMON -- $DAEMON_ARGS 1>> $SPEECH_LOG 2>>$SPEECH_ERR </dev/null || return 2

@@ -62,6 +62,7 @@ apt-get install -y \
   python3-dev \
   python-pyaudio \
   flac \
-  portaudio19-dev
+  portaudio19-dev \
+  libportaudio0
 
 pip install SpeechRecognition PyAudio
