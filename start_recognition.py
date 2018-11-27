@@ -4,6 +4,7 @@ from std_msgs.msg import Int32
 from std_msgs.msg import String
 import speech_recognition as sr
 import subprocess
+import re
 
 # To which topic on Willy we will publish
 willy_topic_name01 ='/interaction/is_active'
@@ -41,6 +42,8 @@ while not rospy.is_shutdown():
         print("Could not request results from Google Speech Recognition service; {0}".format(e))
 
     pub03.publish(heard_text)
+
+    active = re.match(r'(hey|hello|hallo) willy', heard_text, re.IGNORECASE)
     if heard_text == "hello willy":
         print(" ")
         print("Willy says: Hello!")
