@@ -34,7 +34,7 @@ while not rospy.is_shutdown():
         # instead of `r.recognize_google(audio)`
         heard_text = " "
         print("Google Speech Recognition thinks you said: ")
-        heard_text = r.recognize_google(audio)
+        heard_text = r.recognize_google(audio, language="nl")
         print(heard_text)
     except sr.UnknownValueError:
         print("Google Speech Recognition could not understand audio")
