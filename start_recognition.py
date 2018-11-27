@@ -43,7 +43,7 @@ while not rospy.is_shutdown():
 
     pub03.publish(heard_text)
 
-    active = re.match(r'(hey|hello|hallo) willy', heard_text, re.IGNORECASE)
+    active = re.match(r'(hey|hello|hallo|hoi) willy', heard_text, re.IGNORECASE)
     if active:
         print(" ")
         print("Willy says: Hello!")
