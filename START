@@ -8,9 +8,6 @@ PIDFILE=/var/run/$NAME.pid
 date >> $ROSCORE_LOG
 date >> $ROSCORE_ERR
 
-# Exit if the package is not installed
-[ -x "$DAEMON" ] || exit 0
-
 # Read configuration variable file if it is present
 [ -r /etc/default/$NAME ] && . /etc/default/$NAME
 
