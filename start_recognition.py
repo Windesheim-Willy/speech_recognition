@@ -20,13 +20,12 @@ count = 0
 
 while not rospy.is_shutdown():
 
-    print("X")
     r = sr.Recognizer()
     with sr.Microphone() as source:
         print(" ")
-        print("Say something! Say Goodbye to stop")
+        print("Say something!")
         audio = r.listen(source)
-    print("X")
+
     # recognize speech using Google Speech Recognition
     try:
         # for testing purposes, we're just using the default API key
@@ -34,16 +33,14 @@ while not rospy.is_shutdown():
         # instead of `r.recognize_google(audio)`
         heard_text = " "
         print("Google Speech Recognition thinks you said: ")
-        heard_text = r.recognize_google(audio)
+        heard_text = r.recognize_google(audio, language="nl")
         print(heard_text)
     except sr.UnknownValueError:
         print("Google Speech Recognition could not understand audio")
     except sr.RequestError as e:
         print("Could not request results from Google Speech Recognition service; {0}".format(e))
 
-# For demo publish all text on topic
     pub03.publish(heard_text)
-
     if heard_text == "hello willy":
         print(" ")
         print("Willy says: Hello!")
@@ -64,8 +61,4 @@ while not rospy.is_shutdown():
         print(" ")
         print("Willy says: Thanks for D")
         pub03.publish("D")
-    if heard_text == "goodbye":
-        print(" ")
-        print("Willy says: Goodbye")
-        break
     rate.sleep()
