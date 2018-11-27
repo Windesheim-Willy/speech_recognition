@@ -2,10 +2,6 @@
 DAEMON="/opt/willy/components/speech_recognition/start_recognition.sh"
 PIDFILE=/var/run/speech_recognition.pid
 
-test -x $DAEMON || exit 0
-
-. /lib/lsb/init-functions
-
 case "$1" in
   start)
      log_daemon_msg "Starting speech_recognition"
