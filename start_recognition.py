@@ -5,6 +5,12 @@ from std_msgs.msg import String
 import speech_recognition as sr
 import subprocess
 import re
+from fuzzywuzzy import fuzz
+
+# define needed hit ratio for the resemblance text hallo willy in ratio_willy
+ratio_willy = 60
+# define needed hit ratio for the resemblance text of the enquete letters in ratio_letter
+ratio_letter = 75
 
 # To which topic on Willy we will publish
 willy_topic_name01 ='/interaction/is_active'
@@ -43,24 +49,27 @@ while not rospy.is_shutdown():
 
     pub03.publish(heard_text)
 
-    active = re.match(r'(hey|hello|hallo|hoi) willy', heard_text, re.IGNORECASE)
-    if active:
+    # heard_text is the clear text that is heard on the microphone
+    # because the voice, microphone and the google algorithm isn't always correct,
+    # we use fuzzy logic to give a number of correctness to the phrase we are looking for
+
+    if fuzz.ratio(heard_text.lower(), 'hallo willy') > ratio_willy:
         print(" ")
         print("Willy says: Hello!")
         pub01.publish(1)
-    if heard_text == "a":
+    if fuzz.ratio(heard_text.lower(), 'a') > ratio_letter:
         print(" ")
         print("Willy says: Thanks for A")
         pub03.publish("A")
-    if heard_text == "b":
+    if fuzz.ratio(heard_text.lower(), 'b') > ratio_letter:
         print(" ")
         print("Willy says: Thanks for B")
         pub03.publish("B")
-    if heard_text == "c":
+    if fuzz.ratio(heard_text.lower(), 'c') > ratio_letter:
         print(" ")
         print("Willy says: Thanks for C")
         pub03.publish("C")
-    if heard_text == "d":
+    if fuzz.ratio(heard_text.lower(), 'd') > ratio_letter:
         print(" ")
         print("Willy says: Thanks for D")
         pub03.publish("D")
