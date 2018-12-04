@@ -50,7 +50,7 @@ while not rospy.is_shutdown():
     # heard_text is the clear text that is heard on the microphone
     # because the voice, microphone and the google algorithm isn't always correct,
     # we use fuzzy logic to give a number of correctness to the phrase we are looking for
-    # if numer is higer that the resemblance ratio defined in ratio_willy, the match is oké
+    # if numer is higer that the resemblance ratio defined in ratio_willy, the match is oke
     # publish "1" on topic /interaction/is_active to state that hallo willy is heard
     # publish heard_text on topic /interaction/clear_text
     if fuzz.ratio(heard_text.lower(), 'hallo willy') > ratio_willy:
@@ -58,15 +58,15 @@ while not rospy.is_shutdown():
         print("Willy says: Hello!")
         pub01.publish(1)
         pub03.publish(heard_text)
-        
+
     # check if heard_text is a letter, probably used in the enquete
     for a in alphabets:
         if fuzz.ratio(heard_text.lower(), a) > ratio_letter:
             print("Willy says: Thanks for " + a)
             pub03.publish(a)
-    
+
     # for diagnostics reasins allways publish heard text on topic /interaction/clear_text
     # this can later better be changed to a separate topic
     pub03.publish(heard_text)
-        
+
     rate.sleep()
