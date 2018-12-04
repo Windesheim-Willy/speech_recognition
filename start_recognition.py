@@ -57,6 +57,7 @@ while not rospy.is_shutdown():
         print(" ")
         print("Willy says: Hello!")
         pub03.publish(heard_text)
+        sleep(.5);
         pub01.publish(1)
 
     # check if heard_text is a letter, probably used in the enquete
