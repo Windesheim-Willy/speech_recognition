@@ -8,8 +8,8 @@ PIDFILE=/var/run/$NAME.pid
 date >> $ROSCORE_LOG
 date >> $ROSCORE_ERR
 
-export ROS_MASTER_URI=http://192.168.0.220:11311/
-export ROS_IP=192.168.0.153
+export ROS_MASTER_URI=http://192.168.0.10:11311/
+export ROS_IP=192.168.0.11
 
 # Read configuration variable file if it is present
 [ -r /etc/default/$NAME ] && . /etc/default/$NAME
