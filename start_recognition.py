@@ -54,11 +54,13 @@ while not rospy.is_shutdown():
     # if numer is higer that the resemblance ratio defined in ratio_willy, the match is oke
     # publish "1" on topic /interaction/is_active to state that hallo willy is heard
     # publish heard_text on topic /interaction/clear_text
+    # for diagnostics reasins allways publish heard text on topic /interaction/clear_text
+    # this can later better be changed to a separate topic
+    pub03.publish(heard_text)
+
     if fuzz.ratio(heard_text.lower(), 'hallo willy') > ratio_willy:
         print(" ")
         print("Willy says: Hello!")
-        pub03.publish(heard_text)
-        time.sleep(.5)
         pub01.publish(1)
 
     # check if heard_text is a letter, probably used in the enquete
@@ -66,9 +68,5 @@ while not rospy.is_shutdown():
         if fuzz.ratio(heard_text.lower(), a) > ratio_letter:
             print("Willy says: Thanks for " + a)
             pub03.publish(a)
-
-    # for diagnostics reasins allways publish heard text on topic /interaction/clear_text
-    # this can later better be changed to a separate topic
-    pub03.publish(heard_text)
 
     rate.sleep()
