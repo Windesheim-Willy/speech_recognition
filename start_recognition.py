@@ -56,8 +56,8 @@ while not rospy.is_shutdown():
     if fuzz.ratio(heard_text.lower(), 'hallo willy') > ratio_willy:
         print(" ")
         print("Willy says: Hello!")
-        pub01.publish(1)
         pub03.publish(heard_text)
+        pub01.publish(1)
 
     # check if heard_text is a letter, probably used in the enquete
     for a in alphabets:
