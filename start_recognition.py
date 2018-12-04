@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import rospy
+import time
 from std_msgs.msg import Int32
 from std_msgs.msg import String
 import speech_recognition as sr
@@ -57,7 +58,7 @@ while not rospy.is_shutdown():
         print(" ")
         print("Willy says: Hello!")
         pub03.publish(heard_text)
-        sleep(.5);
+        time.sleep(.5)
         pub01.publish(1)
 
     # check if heard_text is a letter, probably used in the enquete
