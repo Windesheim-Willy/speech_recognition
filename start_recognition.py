@@ -22,9 +22,9 @@ willy_topic_name02 ='/interaction/action'
 willy_topic_name03 ='/interaction/clear_text'
 
 rospy.init_node('speech_fetcher')
-pub01 = rospy.Publisher(willy_topic_name01, Int32 ,queue_size=25)
-pub02 = rospy.Publisher(willy_topic_name02, Int32 ,queue_size=25)
-pub03 = rospy.Publisher(willy_topic_name03, String ,queue_size=25)
+pubIsActive = rospy.Publisher(willy_topic_name01, Int32 ,queue_size=25)
+pubAction = rospy.Publisher(willy_topic_name02, Int32 ,queue_size=25)
+pubClearText = rospy.Publisher(willy_topic_name03, String ,queue_size=25)
 
 rate = rospy.Rate(2)
 count = 0
@@ -56,18 +56,18 @@ while not rospy.is_shutdown():
     # publish heard_text on topic /interaction/clear_text
     # for diagnostics reasins allways publish heard text on topic /interaction/clear_text
     # this can later better be changed to a separate topic
-    pub03.publish(heard_text)
+    pubClearText.publish(heard_text)
 
     if fuzz.ratio(heard_text.lower(), 'hallo willy') > ratio_willy:
         print(" ")
         print("Willy says: Hello!")
         time.sleep(.5);
-        pub01.publish(1)
+        pubIsActive.publish(1)
 
     # check if heard_text is a letter, probably used in the enquete
     for a in alphabets:
         if fuzz.ratio(heard_text.lower(), a) > ratio_letter:
             print("Willy says: Thanks for " + a)
-            pub02.publish(a)
+            pubAction.publish(a)
 
     rate.sleep()
