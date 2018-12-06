@@ -17,14 +17,12 @@ ratio_letter = 75
 alphabets=list(string.ascii_lowercase)
 
 # To which topic on Willy we will publish
-willy_topic_name01 ='/interaction/is_active'
-willy_topic_name02 ='/interaction/action'
-willy_topic_name03 ='/interaction/clear_text'
+topicIsActive ='/interaction/is_active'
+topicClearText ='/interaction/clear_text'
 
 rospy.init_node('speech_fetcher')
-pubIsActive = rospy.Publisher(willy_topic_name01, Int32 ,queue_size=25)
-pubAction = rospy.Publisher(willy_topic_name02, Int32 ,queue_size=25)
-pubClearText = rospy.Publisher(willy_topic_name03, String ,queue_size=25)
+pubIsActive = rospy.Publisher(topicIsActive, Int32 ,queue_size=25)
+pubClearText = rospy.Publisher(topicClearText, String ,queue_size=25)
 
 rate = rospy.Rate(2)
 count = 0
@@ -63,11 +61,5 @@ while not rospy.is_shutdown():
         print("Willy says: Hello!")
         time.sleep(.5);
         pubIsActive.publish(1)
-
-    # check if heard_text is a letter, probably used in the enquete
-    for a in alphabets:
-        if fuzz.ratio(heard_text.lower(), a) > ratio_letter:
-            print("Willy says: Thanks for " + a)
-            pubAction.publish(a)
 
     rate.sleep()
