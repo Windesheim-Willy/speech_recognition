@@ -68,6 +68,6 @@ while not rospy.is_shutdown():
     for a in alphabets:
         if fuzz.ratio(heard_text.lower(), a) > ratio_letter:
             print("Willy says: Thanks for " + a)
-            pub03.publish(a)
+            pub02.publish(a)
 
     rate.sleep()
